@@ -1,45 +1,35 @@
-import Link from 'next/link'
-import NeonParticles from '../components/NeonParticles'
-import { useEffect, useState } from 'react'
-
-const BUTTONS = [
-  { name: 'Splunk', link: 'https://app.splunk.gg/u/exmadeGG' },
-  { name: 'Injuries', link: 'https://www.logged.tg/auth/exmade' },
-  { name: 'Cookie Bypasser', link: 'https://app.splunk.gg/u/exmadeGG' },
-  { name: 'Hyperlink Gen', link: 'https://dsprs.vercel.app/hyperlink' }
-]
-
 export default function Methods() {
-  const [theme, setTheme] = useState('neon')
-  useEffect(() => {
-    const t = localStorage.getItem('exmade_theme') || 'neon'
-    setTheme(t)
-  }, [])
+  const buttons = [
+    { name: "Splunk", link: "https://app.splunk.gg/u/exmadeGG" },
+    { name: "Injuries", link: "https://www.logged.tg/auth/exmade" },
+    { name: "Cookie Bypasser", link: "https://app.splunk.gg/u/exmadeGG" },
+    { name: "Hyperlink Gen", link: "https://dsprs.vercel.app/hyperlink" }
+  ]
+
+  const handleClick = (e) => {
+    e.currentTarget.classList.add("clicked")
+    setTimeout(() => {
+      e.currentTarget.classList.remove("clicked")
+    }, 200)
+  }
 
   return (
-    <div className={`app-root ${theme}`} style={{ filter: 'brightness(100%)' }}>
-      <NeonParticles color={theme === 'neon' ? '255,0,0' : '160,160,160'} particleCount={90} maxSize={3} speed={0.7} opacity={0.9} />
-      <main className="methods-main">
-        <Link href="/"><a className="back-link">← Home</a></Link>
-
-        <h2 className="methods-title">Methods</h2>
-
-        <div className="methods-grid">
-          {BUTTONS.map((b, i) => (
-            <a
-              key={i}
-              href={b.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="method-btn"
-            >
-              {b.name}
-            </a>
-          ))}
-        </div>
-
-        <footer className="methods-footer">External links open in a new tab.</footer>
-      </main>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-black text-white">
+      <h1 className="text-4xl font-bold mb-8 text-red-500 drop-shadow-[0_0_15px_rgba(255,0,0,0.8)]">Methods</h1>
+      <div className="method-list">
+        {buttons.map((btn, i) => (
+          <a
+            key={i}
+            href={btn.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={handleClick}
+            className="glass-btn method-btn"
+          >
+            {i + 1}. {btn.name}
+          </a>
+        ))}
+      </div>
     </div>
   )
 }
