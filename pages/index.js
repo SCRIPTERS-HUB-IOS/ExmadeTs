@@ -1,69 +1,44 @@
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
-import NeonParticles from '../components/NeonParticles'
+import { useState } from 'react'
+import { FaDiscord } from 'react-icons/fa'
 
 export default function Home() {
   const [brightness, setBrightness] = useState(100)
-  const [theme, setTheme] = useState('neon') // 'neon' | 'glass'
-  const [particleColor, setParticleColor] = useState('255,0,0')
-
-  useEffect(() => {
-    // remember last theme for user (persist)
-    const t = localStorage.getItem('exmade_theme')
-    const b = localStorage.getItem('exmade_brightness')
-    if (t) setTheme(t)
-    if (b) setBrightness(Number(b))
-  }, [])
-
-  useEffect(() => localStorage.setItem('exmade_theme', theme), [theme])
-  useEffect(() => localStorage.setItem('exmade_brightness', brightness), [brightness])
-
-  useEffect(() => {
-    // switch particle color based on theme
-    if (theme === 'neon') setParticleColor('255,0,0')
-    else setParticleColor('160,160,160') // neutral glow for glass mode
-  }, [theme])
 
   return (
-    <div className={`app-root ${theme}`} style={{ filter: `brightness(${brightness}%)` }}>
-      <div className="background-layer" />
-      <NeonParticles color={particleColor} particleCount={100} maxSize={2.8} speed={0.8} opacity={0.95} />
-      <main className="main">
-        <header className="header">
-          <h1 className="logo">exmadeW</h1>
-          <div className="controls">
-            <label className="control-row">
-              <span>Theme</span>
-              <select value={theme} onChange={(e) => setTheme(e.target.value)}>
-                <option value="neon">Neon (default)</option>
-                <option value="glass">Glass</option>
-              </select>
-            </label>
+    <div className="relative min-h-screen flex flex-col items-center justify-center bg-black text-white transition-all duration-300" style={{ filter: `brightness(${brightness}%)` }}>
+      
+      {/* Title */}
+      <h1 className="text-5xl font-bold mb-10 text-red-500 drop-shadow-[0_0_15px_rgba(255,0,0,0.8)]">exmadeW</h1>
 
-            <label className="control-row brightness">
-              <span>Brightness</span>
-              <input
-                type="range"
-                min="50"
-                max="150"
-                value={brightness}
-                onChange={(e) => setBrightness(Number(e.target.value))}
-                aria-label="Brightness slider"
-              />
-            </label>
-          </div>
-        </header>
+      {/* Methods Button */}
+      <Link href="/methods" className="glass-btn mb-6">
+        Methods
+      </Link>
 
-        <section className="content">
-          <Link href="/methods">
-            <a className="primary-btn">Methods</a>
-          </Link>
+      {/* Discord Button */}
+      <a
+        href="https://discord.gg/skDSzwCScu"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="glass-btn flex items-center gap-2 mb-6 bg-[rgba(0,102,255,0.15)] border-blue-500 hover:shadow-[0_0_25px_rgba(0,102,255,0.8)]"
+      >
+        <FaDiscord className="text-blue-400 text-xl" />
+        Our Discord
+      </a>
 
-          <p className="hint">Click Methods to view Splunk / Injuries / Cookie / Hyperlink tools</p>
-        </section>
-
-        <footer className="footer">exmadeW · red neon theme · built for Vercel</footer>
-      </main>
+      {/* Brightness Slider */}
+      <div className="w-64 mt-4 text-center">
+        <label className="mb-2 block">Brightness</label>
+        <input
+          type="range"
+          min="50"
+          max="150"
+          value={brightness}
+          onChange={(e) => setBrightness(e.target.value)}
+          className="w-full"
+        />
+      </div>
     </div>
   )
 }
